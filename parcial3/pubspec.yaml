@@ -31,9 +31,16 @@ dependencies:
   flutter:
     sdk: flutter
 
+  cupertino_icons: ^1.0.8
+
+  # Para grabar y reproducir audio:
+  record: ^4.4.0           # plugin ligero para grabación :contentReference[oaicite:0]{index=0}
+  permission_handler: ^10.2.0  # gestionar permisos en tiempo de ejecución
+  path_provider: ^2.0.0        # obtener rutas de almacenamiento
+  audioplayers: ^1.0.1         # para reproducir los archivos de audio :contentReference[oaicite:1]{index=1}
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:

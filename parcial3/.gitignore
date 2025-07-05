@@ -1,45 +1,33 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Archivos generados por Flutter/Dart
 .dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
+.packages
 .pub/
-/build/
+build/
+flutter_export_environment.sh
 
-# Symbolication related
-app.*.symbols
+# Configuración de IDEs
+.idea/
+.vscode/
+*.iml
+*.iws
 
-# Obfuscation related
-app.*.map.json
+# Archivos de sistema
+.DS_Store  # macOS
+Thumbs.db  # Windows
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Android (archivos sensibles)
+android/key.properties    # Claves de firma
+android/local.properties # Ruta local del SDK
+
+# iOS/Cocoapods
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/flutter.podspec
+
+# Archivos de entorno (secrets)
+.env
+*.env
+
+# ✅ IMPORTANTE: MANTENER ESTOS ARCHIVOS (NO IGNORAR)
+!pubspec.lock  # Debe versionarse
+!pubspec.yaml  # Debe versionarse

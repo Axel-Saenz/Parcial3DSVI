@@ -31,7 +31,7 @@ public class ListadoNotasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewNotas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        carpetaNotas = new File(Environment.getExternalStorageDirectory(), "VoiceJournal/Notas");
+        carpetaNotas = new File(getExternalFilesDir(null), "VoiceJournal/Notas");
         if (!carpetaNotas.exists()) carpetaNotas.mkdirs();
 
         try {

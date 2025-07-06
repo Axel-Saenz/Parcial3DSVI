@@ -2,11 +2,14 @@ package com.example.micrecorder;
 
 // Librerías necesarias para manejo de audio, archivos, listas, fechas, etc.
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +39,10 @@ public class ListadoNotasActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_listado_notas);
 
+        Button btnAbrirGrabadora, btnVerListado;
+        btnAbrirGrabadora = findViewById(R.id.btnAbrirGrabadora);
+        btnVerListado = findViewById(R.id.btnVerListado);
+        recyclerView = findViewById(R.id.recyclerViewNotas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Define la carpeta donde se almacenarán las notas
@@ -147,5 +154,11 @@ public class ListadoNotasActivity extends AppCompatActivity {
         } else {
             //Línea de código para empezar a grabar
         }
+    }
+
+    //método para abrir la grabadora:
+    public void abrirGrabadora(View view) {
+        Intent intent = new Intent(this, VoiceRecorderActivity.class);
+        startActivity(intent);
     }
 }

@@ -4,53 +4,67 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="@android:color/white"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp">
+    android:padding="16dp"
+    android:background="#ffffff"
+    android:layout_marginBottom="12dp"
+    android:elevation="4dp"
+    android:layout_marginHorizontal="12dp"
+    android:backgroundTint="#f2f2f2">
 
     <TextView
         android:id="@+id/tvNombreArchivo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="nota_2025-07-05_14-30.3gp"
+        android:text="🎙 nota_2025-07-05_14-30.3gp"
         android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:textSize="17sp"
+        android:textColor="#114c5f"/>
 
     <TextView
         android:id="@+id/tvFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="05/07/2025 2:30 p.m."
+        android:text="🗓️ 05/07/2025 2:30 p.m."
         android:textSize="14sp"
-        android:textColor="#777"/>
+        android:textColor="#555"/>
 
     <TextView
         android:id="@+id/tvDuracion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Duración: 01:15"
+        android:text="⏱️ Duración: 01:15"
         android:textSize="14sp"
-        android:textColor="#777"
-        android:layout_marginBottom="8dp"/>
+        android:textColor="#555"
+        android:layout_marginBottom="12dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="4dp">
 
         <Button
             android:id="@+id/btnReproducir"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="▶ Reproducir"
-            android:layout_weight="1"/>
+            android:textSize="14sp"
+            android:backgroundTint="#0799b6"
+            android:textColor="#ffffff"
+            android:minHeight="48dp"/>
 
         <Button
             android:id="@+id/btnEliminar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="🗑 Eliminar"
-            android:layout_weight="1"/>
+            android:textSize="14sp"
+            android:backgroundTint="#e57373"
+            android:textColor="#ffffff"
+            android:layout_marginStart="8dp"
+            android:minHeight="48dp"/>
     </LinearLayout>
 </LinearLayout>

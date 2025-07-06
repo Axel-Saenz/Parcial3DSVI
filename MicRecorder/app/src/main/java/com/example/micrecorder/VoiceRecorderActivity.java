@@ -140,7 +140,7 @@ public class VoiceRecorderActivity extends AppCompatActivity {
             handler.removeCallbacks(updateTimer);
             // Guarda el tiempo transcurrido hasta la pausa
             pausedTime += System.currentTimeMillis() - startTime;
-            btnPause.setText("Reanudar");
+            btnPause.setText("▶ Reanudar");
             Toast.makeText(this, "Pausado", Toast.LENGTH_SHORT).show();
         }
     }
@@ -152,7 +152,7 @@ public class VoiceRecorderActivity extends AppCompatActivity {
             // Reinicia el contador desde ahora
             startTime = System.currentTimeMillis();
             handler.post(updateTimer);
-            btnPause.setText("Pausar");
+            btnPause.setText("⏸ Pausar");
             Toast.makeText(this, "Reanudado", Toast.LENGTH_SHORT).show();
         }
     }

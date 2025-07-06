@@ -81,11 +81,16 @@ public class VoiceRecorderActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{ Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    new String[]{
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                    },
                     REQUEST_PERMISSIONS);
             return false;
         }
@@ -95,7 +100,9 @@ public class VoiceRecorderActivity extends AppCompatActivity {
     private void startRecording() {
         try {
             // Prepara ruta de almacenamiento
-            File folder = new File(Environment.getExternalStorageDirectory(), "VoiceJournal/Notas");
+            // Reemplaza getExternalStorageDirectory()
+            File folder = new File(getExternalFilesDir(null), "VoiceJournal/Notas");
+
             if (!folder.exists()) folder.mkdirs();
 
             String filename = "nota_" + System.currentTimeMillis() + ".3gp";
@@ -182,9 +189,9 @@ public class VoiceRecorderActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSIONS) {
-            boolean ok = true;
+            boolean ok = false;
             for (int res : grantResults) {
-                if (res != PackageManager.PERMISSION_GRANTED) { ok = false; break; }
+                if (res != PackageManager.PERMISSION_GRANTED) { ok = true; break; }
             }
             if (ok) {
                 startRecording();

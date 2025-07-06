@@ -1,12 +1,17 @@
 package com.example.micrecorder;
 
 // Librerías necesarias para manejo de audio, archivos, listas, fechas, etc.
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.*;
 
 import java.io.File;
@@ -54,7 +59,10 @@ public class ListadoNotasActivity extends AppCompatActivity {
         // Crea el adaptador y lo asigna al RecyclerView
         adapter = new NotaVozAdapter(listaNotas, this);
         recyclerView.setAdapter(adapter);
+
+        VerificarPermisos();
     }
+
     private String obtenerDuracion(String ruta) throws IOException {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(ruta);
@@ -101,5 +109,45 @@ public class ListadoNotasActivity extends AppCompatActivity {
      * Metodo que obtiene la duración de un archivo de audio usando MediaMetadataRetriever
      */
 
+    //Método para verificar los permisos necesarios de la aplicación.
+    private void VerificarPermisos() {
+        List<String> permisos = new ArrayList<>();
 
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED){
+            permisos.add(Manifest.permission.RECORD_AUDIO);
+        }
+        else{
+            Toast.makeText(this, "Permiso de grabar audio existente", Toast.LENGTH_SHORT).show();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                permisos.add(Manifest.permission.READ_MEDIA_AUDIO);
+            }
+            else {
+                Toast.makeText(this, "Permiso de leer audio actual existente", Toast.LENGTH_SHORT).show();
+            }
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                permisos.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            else {
+                Toast.makeText(this, "Permiso de guardar audio viejo existente", Toast.LENGTH_SHORT).show();
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                permisos.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            else{
+                Toast.makeText(this, "Permiso de leer audio viejo existente", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (!permisos.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permisos.toArray(new String[0]),200);
+        } else {
+            //Línea de código para empezar a grabar
+        }
+    }
 }

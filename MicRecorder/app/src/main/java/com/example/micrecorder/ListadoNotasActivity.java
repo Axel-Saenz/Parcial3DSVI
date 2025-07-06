@@ -37,9 +37,11 @@ public class ListadoNotasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setContentView(R.layout.activity_listado_notas);
 
-        Button btnAbrirGrabadora, btnVerListado;
+        Button btnAbrirGrabadora, btnVerListado = null;
+
         btnAbrirGrabadora = findViewById(R.id.btnAbrirGrabadora);
         btnVerListado = findViewById(R.id.btnVerListado);
         recyclerView = findViewById(R.id.recyclerViewNotas);
@@ -100,8 +102,9 @@ public class ListadoNotasActivity extends AppCompatActivity {
                     String fecha = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                             .format(new Date(archivo.lastModified()));
 
-                    String ruta = "";
+                    String ruta = archivo.getAbsolutePath();
                     String duracion = obtenerDuracion(ruta);
+
 
                     // Crea un objeto NotaVoz y lo agrega a la lista
                     listaNotas.add(new NotaVoz(nombre, ruta, fecha, duracion));
@@ -109,12 +112,13 @@ public class ListadoNotasActivity extends AppCompatActivity {
             }
         }
     }
+    
 
     /**
      * Metodo que obtiene la duración de un archivo de audio usando MediaMetadataRetriever
      */
 
-    //Método para verificar los permisos necesarios de la aplicación.
+    //Metodo para verificar los permisos necesarios de la aplicación.
     private void VerificarPermisos() {
         List<String> permisos = new ArrayList<>();
 
@@ -156,9 +160,16 @@ public class ListadoNotasActivity extends AppCompatActivity {
         }
     }
 
-    //método para abrir la grabadora:
+    //metodo para abrir la grabadora:
     public void abrirGrabadora(View view) {
         Intent intent = new Intent(this, VoiceRecorderActivity.class);
         startActivity(intent);
     }
+
+    // Metodo para abrir el listado de notas de voz
+    public void abrirListado(View view) {
+        Intent intent = new Intent(this, NotaVozAdapter.class);
+        startActivity(intent);
+    }
+
 }

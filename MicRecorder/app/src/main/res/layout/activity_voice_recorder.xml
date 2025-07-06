@@ -42,13 +42,9 @@
 
     <Button
         android:id="@+id/btnStart"
-        android:layout_width="88dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="112dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="418dp"
-        android:text="Iniciar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnPause"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,25 +52,9 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btnStop"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="232dp"
-        android:layout_marginEnd="24dp"
-        android:text="Detener"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnPause"
-        app:layout_constraintTop_toBottomOf="@id/tvTimer" />
-
-    <Button
         android:id="@+id/btnPause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="232dp"
         android:layout_marginEnd="8dp"
-        android:text="Pausar"
         app:layout_constraintEnd_toStartOf="@id/btnStop"
         app:layout_constraintStart_toEndOf="@id/btnStart"
         app:layout_constraintTop_toBottomOf="@id/tvTimer" />

@@ -36,8 +36,6 @@ public class ListadoNotasActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_listado_notas);
 
-        recyclerView = findViewById(R.id.recyclerViewNotas);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Define la carpeta donde se almacenarán las notas

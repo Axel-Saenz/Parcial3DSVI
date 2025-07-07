@@ -1,5 +1,8 @@
 package com.example.micrecorder;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Build;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -7,6 +10,8 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +27,7 @@ import java.util.Locale;
 public class VoiceRecorderActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSIONS = 200;
-
+    private static final String DIRECTORY_RECORDINGS_COMPAT = "Recordings";
     private TextView tvTimer;
     private Button btnStart, btnPause, btnStop;
 
@@ -99,37 +104,70 @@ public class VoiceRecorderActivity extends AppCompatActivity {
 
     private void startRecording() {
         try {
-            // Prepara ruta de almacenamiento
-            // Reemplaza getExternalStorageDirectory()
-            File folder = new File(getExternalFilesDir(null), "VoiceJournal/Notas");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // Para Android 10+
+                ContentResolver resolver = getContentResolver();
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.MediaColumns.DISPLAY_NAME, "nota_" + System.currentTimeMillis());
+                values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/3gpp");
+                values.put(MediaStore.MediaColumns.RELATIVE_PATH, DIRECTORY_RECORDINGS_COMPAT + "/AudiosDSVIJuanZamoraNosExplotaAYUDA");
 
-            if (!folder.exists()) folder.mkdirs();
+                Uri uri = resolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
 
-            String filename = "nota_" + System.currentTimeMillis() + ".3gp";
-            filePath = new File(folder, filename).getAbsolutePath();
+                if (uri == null) {
+                    Toast.makeText(this, "Error: No se pudo crear el archivo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            recorder = new MediaRecorder();
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-            recorder.setOutputFile(filePath);
-            recorder.prepare();
-            recorder.start();
+                ParcelFileDescriptor pfd = resolver.openFileDescriptor(uri, "w");
+                if (pfd == null) {
+                    Toast.makeText(this, "Error: No se pudo abrir el archivo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                recorder = new MediaRecorder();
+                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                recorder.setOutputFile(pfd.getFileDescriptor());
+                recorder.prepare();
+                recorder.start();
+
+                filePath = uri.toString(); // Guardamos URI del archivo
+
+            } else {
+                // Para Android ≤ 9
+                if (!checkPermissions()) return;
+
+                File folder = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_RECORDINGS_COMPAT), "AudiosDSVIJuanZamoraNosExplotaAYUDA");
+                if (!folder.exists()) folder.mkdirs();
+
+                String filename = "nota_" + System.currentTimeMillis() + ".3gp";
+                File file = new File(folder, filename);
+                filePath = file.getAbsolutePath();
+
+                recorder = new MediaRecorder();
+                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                recorder.setOutputFile(filePath);
+                recorder.prepare();
+                recorder.start();
+            }
 
             isRecording = true;
-            isPaused = false;
             startTime = System.currentTimeMillis();
-            pausedTime = 0L;
             handler.post(updateTimer);
 
             btnStart.setEnabled(false);
             btnPause.setEnabled(true);
             btnStop.setEnabled(true);
             btnPause.setText("Pausar");
-
             Toast.makeText(this, "Grabando...", Toast.LENGTH_SHORT).show();
+
         } catch (IOException e) {
-            Toast.makeText(this, "Error al iniciar grabación", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            Toast.makeText(this, "Error al iniciar grabación: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

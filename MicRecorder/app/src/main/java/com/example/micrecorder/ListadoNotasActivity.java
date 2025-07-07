@@ -1,12 +1,21 @@
 package com.example.micrecorder;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -31,8 +40,12 @@ public class ListadoNotasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewNotas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        carpetaNotas = new File(getExternalFilesDir(null), "VoiceJournal/Notas");
+        carpetaNotas = getNotesFolder(this);
+        if (carpetaNotas == null) {
+            Toast.makeText(this, "No se pudo acceder a la carpeta", Toast.LENGTH_SHORT).show();
+        }
         if (!carpetaNotas.exists()) carpetaNotas.mkdirs();
+        VerificarPermisos();
 
         try {
             cargarNotas();
@@ -40,19 +53,21 @@ public class ListadoNotasActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(this, "Error al cargar notas", Toast.LENGTH_SHORT).show();
         }
-
         adapter = new NotaVozAdapter(listaNotas, this);
         recyclerView.setAdapter(adapter);
-
         VerificarPermisos();
     }
 
     private void cargarNotas() throws IOException {
+        if (carpetaNotas == null || !carpetaNotas.exists() || !carpetaNotas.isDirectory()) {
+            throw new IOException("Carpeta no disponible o inválida");
+        }
+
         File[] archivos = carpetaNotas.listFiles();
         if (archivos != null) {
             for (File archivo : archivos) {
-                if (archivo.isFile() && archivo.getName().endsWith(".3gp")) {
-                    String nombre = archivo.getName();
+                String nombre = archivo.getName().toLowerCase();
+                if (archivo.isFile() && (nombre.endsWith(".3gp") || nombre.endsWith(".3ga"))) {
                     String fecha = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                             .format(new Date(archivo.lastModified()));
                     String ruta = archivo.getAbsolutePath();
@@ -102,5 +117,88 @@ public class ListadoNotasActivity extends AppCompatActivity {
         if (!permisos.isEmpty()) {
             ActivityCompat.requestPermissions(this, permisos.toArray(new String[0]), 200);
         }
+    }
+
+    public File getNotesFolder(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return getPublicDirectoryUsingMediaStore(context);
+        } else {
+            File recordingsDir = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                recordingsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RECORDINGS);
+            }
+            File customFolder = new File(recordingsDir, "AudiosDSVIJuanZamoraNosExplotaAYUDA");
+
+            if (!customFolder.exists()) {
+                boolean created = customFolder.mkdirs(); // Intenta crearla si no existe
+                if (!created) {
+                    Log.e("ListadoNotas", "No se pudo crear la carpeta");
+                    return null;
+                }
+            }
+
+            return customFolder;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private File getPublicDirectoryUsingMediaStore(Context context) {
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+
+        String selection = MediaStore.MediaColumns.RELATIVE_PATH + "=?";
+        String[] selectionArgs = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            selectionArgs = new String[]{
+                    Environment.DIRECTORY_RECORDINGS + "/AudiosDSVIJuanZamoraNosExplotaAYUDA"
+            };
+        }
+
+        Cursor cursor = resolver.query(collection, null, selection, selectionArgs, null);
+
+        File folder = null;
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            String firstFilePath = cursor.getString(dataColumn);
+            folder = new File(firstFilePath).getParentFile();
+        }
+
+        if (folder == null || !folder.exists()) {
+            // Si no hay archivos, creamos la carpeta localmente
+            File publicDir = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                publicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RECORDINGS);
+            }
+            folder = new File(publicDir, "AudiosDSVIJuanZamoraNosExplotaAYUDA");
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        return folder;
+    }
+
+    // Método auxiliar para obtener la ruta desde el URI
+    private String getPathFromURI(Context context, Uri uri) {
+        String path = null;
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.MediaColumns.DATA}, null, null, null);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                    path = cursor.getString(index);
+                }
+                cursor.close();
+            }
+        } else {
+            path = uri.getPath();
+        }
+        return path;
     }
 }

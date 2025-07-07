@@ -35,6 +35,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="48dp"/>
 
+    <!-- View para animacion -->
+    <View
+        android:id="@+id/indicadorGrabando"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_red"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tvTimer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
     <!-- Botones en línea horizontal centrados -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contenedor_botones"

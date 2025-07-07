@@ -37,6 +37,16 @@
         android:textColor="#555"
         android:layout_marginBottom="12dp"/>
 
+    <!-- Barra de reproducción -->
+    <SeekBar
+        android:id="@+id/seekBarProgreso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:layout_marginTop="8dp"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="▶ Reproducir"
-            android:textSize="14sp"
+            android:textSize="10sp"
             android:backgroundTint="#0799b6"
             android:textColor="#ffffff"
             android:minHeight="48dp"/>
@@ -61,9 +71,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="🗑 Eliminar"
-            android:textSize="14sp"
+            android:textSize="10sp"
             android:backgroundTint="#e57373"
             android:textColor="#ffffff"
+            android:layout_marginStart="8dp"
+            android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/btnRenombrar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="✏️ Renombrar"
+            android:textSize="10sp"
+            android:backgroundTint="#9cd2d3"
+            android:textColor="#114c5f"
             android:layout_marginStart="8dp"
             android:minHeight="48dp"/>
     </LinearLayout>

@@ -30,7 +30,6 @@ public class NotaVozAdapter extends RecyclerView.Adapter<NotaVozAdapter.ViewHold
             tvDuracion = itemView.findViewById(R.id.tvDuracion);
             btnReproducir = itemView.findViewById(R.id.btnReproducir);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
-            btnRenombrar = itemView.findViewById(R.id.btnRenombrar);
             seekBarProgreso = itemView.findViewById(R.id.seekBarProgreso);
         }
     }
@@ -97,48 +96,6 @@ public class NotaVozAdapter extends RecyclerView.Adapter<NotaVozAdapter.ViewHold
             }
         });
 
-        holder.btnRenombrar.setOnClickListener(v -> {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View dialogView = inflater.inflate(R.layout.dialog_renombrar, null);
-            EditText input = dialogView.findViewById(R.id.editTextNuevoNombre);
-
-            int pos = holder.getAdapterPosition();
-            NotaVoz notaSeleccionada = listaNotas.get(pos);
-
-            new AlertDialog.Builder(context)
-                    .setTitle("Renombrar Nota")
-                    .setView(dialogView)
-                    .setPositiveButton("Guardar", (dialog, which) -> {
-                        String nuevoNombre = input.getText().toString().trim();
-
-                        if (!nuevoNombre.isEmpty()) {
-                            File archivoActual = new File(notaSeleccionada.getRuta());
-                            File nuevoArchivo = new File(archivoActual.getParent(), nuevoNombre + ".3gp");
-
-                            if (nuevoArchivo.exists()) {
-                                Toast.makeText(context, "Ya existe un archivo con ese nombre", Toast.LENGTH_SHORT).show();
-                            } else {
-                                if (archivoActual.renameTo(nuevoArchivo)) {
-                                    NotaVoz nuevaNota = new NotaVoz(
-                                            nuevoArchivo.getName(),
-                                            nuevoArchivo.getAbsolutePath(),
-                                            notaSeleccionada.getFechaHora(),
-                                            notaSeleccionada.getDuracion()
-                                    );
-                                    listaNotas.set(pos, nuevaNota);
-                                    notifyItemChanged(pos);
-                                    Toast.makeText(context, "Nota renombrada", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, "No se pudo renombrar", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        } else {
-                            Toast.makeText(context, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("Cancelar", null)
-                    .show();
-        });
     }
 
 

@@ -77,16 +77,5 @@
             android:layout_marginStart="8dp"
             android:minHeight="48dp"/>
 
-        <Button
-            android:id="@+id/btnRenombrar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="✏️ Renombrar"
-            android:textSize="10sp"
-            android:backgroundTint="#9cd2d3"
-            android:textColor="#114c5f"
-            android:layout_marginStart="8dp"
-            android:minHeight="48dp"/>
     </LinearLayout>
 </LinearLayout>

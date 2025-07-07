@@ -1,61 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="24dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@drawable/fondo">
 
-        <!-- Título de Pantalla Principal -->
-        <TextView
-            android:id="@+id/titulo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Notas de Voz"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- Título -->
 
-        <!-- Título de bienvenida -->
+    <!-- Mensaje de bienvenida -->
 
-        <!-- Botón para ir a la grabadora -->
+    <!-- Botón para grabar -->
 
-        <TextView
-            android:id="@+id/tvBienvenida"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="240dp"
-            android:text="¡Hola, Usuario 👋!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:gravity="center"
+        android:text="🎧 Voice Journal"
+        android:textColor="#114c5f"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnAbrirGrabadora"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Ir a Grabadora"
-            app:layout_constraintTop_toBottomOf="@id/tvBienvenida"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="32dp"
-            android:onClick="abrirGrabadora"
-            />
+    <TextView
+        android:id="@+id/tvBienvenida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="340dp"
+        android:gravity="center"
+        android:text="¡Bienvenido a tu diario de voz! 📝"
+        android:textColor="#4a6eb0"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Botón para ir al listado -->
-        <Button
-            android:id="@+id/btnVerListado"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Ver Notas de Voz"
-            app:layout_constraintTop_toBottomOf="@id/btnAbrirGrabadora"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:onClick="abrirListado"/>
+    <Button
+        android:id="@+id/btnAbrirGrabadora"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:text="🎙️ Grabar Nota"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#0799b6"
+        android:onClick="abrirGrabadora"
+        app:layout_constraintTop_toBottomOf="@id/tvBienvenida"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <!-- Botón para ver notas -->
+    <Button
+        android:id="@+id/btnVerListado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:text="📂 Ver Notas Guardadas"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:backgroundTint="#9cd2d3"
+        android:onClick="abrirListado"
+        app:layout_constraintTop_toBottomOf="@id/btnAbrirGrabadora"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

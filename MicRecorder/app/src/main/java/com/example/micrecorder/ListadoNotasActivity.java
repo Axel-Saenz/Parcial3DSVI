@@ -6,7 +6,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,11 +35,21 @@ public class ListadoNotasActivity extends AppCompatActivity {
     NotaVozAdapter adapter;
     List<NotaVoz> listaNotas = new ArrayList<>();
     File carpetaNotas;
+    private Button btnRetroceso; //botón de retroceso
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado_notas); // ← SOLO tiene RecyclerView
+
+        // Inicializar botón de retroceso
+        btnRetroceso = findViewById(R.id.btnRetroceso);
+        btnRetroceso.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InicioActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
 
         recyclerView = findViewById(R.id.recyclerViewNotas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -53,8 +67,10 @@ public class ListadoNotasActivity extends AppCompatActivity {
         } catch (IOException e) {
             Toast.makeText(this, "Error al cargar notas", Toast.LENGTH_SHORT).show();
         }
+
         adapter = new NotaVozAdapter(listaNotas, this);
         recyclerView.setAdapter(adapter);
+
         VerificarPermisos();
     }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#f2f2f2">
+
+    <EditText
+        android:id="@+id/editTextNuevoNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:hint="Nuevo nombre (sin .3gp)"
+        android:inputType="text"
+        android:textColor="#114c5f"
+        android:textSize="16sp"
+        android:background="@drawable/edit_text"
+        android:padding="12dp"
+        android:elevation="2dp"/>
+</LinearLayout>

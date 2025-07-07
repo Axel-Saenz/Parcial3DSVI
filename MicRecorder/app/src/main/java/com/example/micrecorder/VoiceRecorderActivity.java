@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Build;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +33,8 @@ public class VoiceRecorderActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSIONS = 200;
     private static final String DIRECTORY_RECORDINGS_COMPAT = "Recordings";
     private TextView tvTimer;
-    private Button btnStart, btnPause, btnStop;
+    private Button btnStart, btnPause, btnStop, btnRetroceso;
+    private View indicadorGrabando; // indicador para animacion mientras graba
 
     private MediaRecorder recorder;
     private String filePath;
@@ -63,6 +68,16 @@ public class VoiceRecorderActivity extends AppCompatActivity {
         btnStart  = findViewById(R.id.btnStart);
         btnPause  = findViewById(R.id.btnPause);
         btnStop   = findViewById(R.id.btnStop);
+        indicadorGrabando = findViewById(R.id.indicadorGrabando);
+
+        // Inicializar botón de retroceso
+        btnRetroceso = findViewById(R.id.btnRetroceso);
+        btnRetroceso.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InicioActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
 
         btnPause.setEnabled(false);
         btnStop.setEnabled(false);
@@ -156,15 +171,24 @@ public class VoiceRecorderActivity extends AppCompatActivity {
             }
 
             isRecording = true;
+            isPaused = false;
             startTime = System.currentTimeMillis();
+            pausedTime = 0L;
             handler.post(updateTimer);
 
             btnStart.setEnabled(false);
             btnPause.setEnabled(true);
             btnStop.setEnabled(true);
             btnPause.setText("Pausar");
-            Toast.makeText(this, "Grabando...", Toast.LENGTH_SHORT).show();
+            btnPause.setText("⏸ Pausar");
 
+            //Mostrar animación de grabando
+            indicadorGrabando.setVisibility(View.VISIBLE);
+            Animation blink = AnimationUtils.loadAnimation(this, R.anim.blink);
+            indicadorGrabando.startAnimation(blink);
+
+
+            Toast.makeText(this, "Grabando...", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al iniciar grabación: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -178,7 +202,12 @@ public class VoiceRecorderActivity extends AppCompatActivity {
             handler.removeCallbacks(updateTimer);
             // Guarda el tiempo transcurrido hasta la pausa
             pausedTime += System.currentTimeMillis() - startTime;
-            btnPause.setText("Reanudar");
+            btnPause.setText("▶ Reanudar");
+
+            //Pausar animación del indicador
+            indicadorGrabando.clearAnimation();
+            indicadorGrabando.setAlpha(1f);
+            Toast.makeText(this, "Pausado", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Pausado", Toast.LENGTH_SHORT).show();
         }
     }
@@ -190,7 +219,11 @@ public class VoiceRecorderActivity extends AppCompatActivity {
             // Reinicia el contador desde ahora
             startTime = System.currentTimeMillis();
             handler.post(updateTimer);
-            btnPause.setText("Pausar");
+            btnPause.setText("⏸ Pausar");
+
+            //Reanudar animación de grabando
+            Animation blink = AnimationUtils.loadAnimation(this, R.anim.blink);
+            indicadorGrabando.startAnimation(blink);
             Toast.makeText(this, "Reanudado", Toast.LENGTH_SHORT).show();
         }
     }
@@ -204,6 +237,10 @@ public class VoiceRecorderActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Grabación guardada:\n" + filePath,
                     Toast.LENGTH_LONG).show();
+
+            //Ocultar el indicador visual
+            indicadorGrabando.clearAnimation();
+            indicadorGrabando.setVisibility(View.GONE);
 
             resetUI();
         }

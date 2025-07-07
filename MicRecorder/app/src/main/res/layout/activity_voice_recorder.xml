@@ -4,19 +4,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@drawable/fondo">
+
+    <!-- Botón de retroceso -->
+    <Button
+        android:id="@+id/btnRetroceso"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="#9cd2d3"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="←"
+        android:textColor="#114c5f"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Título -->
     <TextView
         android:id="@+id/tvTitulo"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grabadora de Voz"
-        android:textSize="24sp"
+        android:layout_marginTop="204dp"
+        android:text="🎤 Grabadora de Voz"
+        android:textColor="#114c5f"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Contador de tiempo -->
     <TextView
@@ -26,45 +47,81 @@
         android:text="00:00"
         android:textSize="48sp"
         android:textStyle="bold"
+        android:textColor="#4a6eb0"
         app:layout_constraintTop_toBottomOf="@id/tvTitulo"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp"/>
 
-    <!-- Botón Iniciar -->
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Iniciar"
+    <!-- View para animacion -->
+    <View
+        android:id="@+id/indicadorGrabando"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_red"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tvTimer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnPause"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botón Pausa/Reanudar -->
-    <Button
-        android:id="@+id/btnPause"
+
+    <!-- Botones en línea horizontal centrados -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenedor_botones"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Pausar"
         app:layout_constraintTop_toBottomOf="@id/tvTimer"
-        app:layout_constraintStart_toEndOf="@id/btnStart"
-        app:layout_constraintEnd_toStartOf="@id/btnStop"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
-
-    <!-- Botón Detener -->
-    <Button
-        android:id="@+id/btnStop"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Detener"
-        app:layout_constraintTop_toBottomOf="@id/tvTimer"
-        app:layout_constraintStart_toEndOf="@id/btnPause"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="8dp"/>
+        android:layout_marginTop="48dp">
+
+        <!-- Iniciar -->
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="▶️ Iniciar"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#0799b6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnPause"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Pausar -->
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="⏸️ Pausar"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:backgroundTint="#9cd2d3"
+            app:layout_constraintStart_toEndOf="@id/btnStart"
+            app:layout_constraintEnd_toStartOf="@id/btnStop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Detener -->
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="⏹️ Detener"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#114c5f"
+            app:layout_constraintStart_toEndOf="@id/btnPause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

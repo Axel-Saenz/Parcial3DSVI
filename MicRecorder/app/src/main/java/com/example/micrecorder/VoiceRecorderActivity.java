@@ -2,6 +2,7 @@ package com.example.micrecorder;
 
 import android.os.Build;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class VoiceRecorderActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSIONS = 200;
 
     private TextView tvTimer;
-    private Button btnStart, btnPause, btnStop;
+    private Button btnStart, btnPause, btnStop, btnRetroceso;
     private View indicadorGrabando; // indicador para animacion mientras graba
 
     private MediaRecorder recorder;
@@ -63,6 +64,15 @@ public class VoiceRecorderActivity extends AppCompatActivity {
         btnPause  = findViewById(R.id.btnPause);
         btnStop   = findViewById(R.id.btnStop);
         indicadorGrabando = findViewById(R.id.indicadorGrabando);
+
+        // Inicializar botón de retroceso
+        btnRetroceso = findViewById(R.id.btnRetroceso);
+        btnRetroceso.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InicioActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
 
         btnPause.setEnabled(false);
         btnStop.setEnabled(false);

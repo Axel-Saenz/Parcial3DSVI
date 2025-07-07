@@ -8,35 +8,41 @@
     android:background="@drawable/fondo">
 
     <!-- Título -->
+
+    <!-- Mensaje de bienvenida -->
+
+    <!-- Botón para grabar -->
+
     <TextView
         android:id="@+id/titulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:gravity="center"
         android:text="🎧 Voice Journal"
+        android:textColor="#114c5f"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#114c5f"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Mensaje de bienvenida -->
     <TextView
         android:id="@+id/tvBienvenida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="340dp"
+        android:gravity="center"
         android:text="¡Bienvenido a tu diario de voz! 📝"
+        android:textColor="#4a6eb0"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="#4a6eb0"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón para grabar -->
     <Button
         android:id="@+id/btnAbrirGrabadora"
         android:layout_width="0dp"

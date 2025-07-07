@@ -7,19 +7,37 @@
     android:padding="24dp"
     android:background="@drawable/fondo">
 
+    <!-- Botón de retroceso -->
+    <Button
+        android:id="@+id/btnRetroceso"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="#9cd2d3"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="←"
+        android:textColor="#114c5f"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Título -->
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
         android:text="🎤 Grabadora de Voz"
+        android:textColor="#114c5f"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#114c5f"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="48dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Contador de tiempo -->
     <TextView
